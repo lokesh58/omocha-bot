@@ -1,0 +1,30 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+        "semi": ["error", "always"],
+        "camelcase": "error",
+        "quotes": ["error", "single"],
+        "curly": "error",
+        "object-curly-spacing": ["error", "always"],
+        "array-bracket-spacing": ["error", "never"],
+        "func-call-spacing": ["error", "never"],
+        "template-curly-spacing": ["error", "never"],
+        "space-before-blocks": "error",
+        "brace-style": ["error", "1tbs"],
+        "indent": ["error", 2],
+        "arrow-body-style": ["error", "as-needed"],
+        "prefer-arrow-callback": "error",
+        "arrow-parens": ["error", "as-needed", { "requireForBlockBody": true }],
+        "func-style": ["error", "expression"],
+        "eol-last": ["error", "always"]
+    }
+}
