@@ -1,9 +1,10 @@
-import { ApplicationCommandSubCommandData, Client, CommandInteraction } from 'discord.js';
+import { ApplicationCommandSubCommandData } from 'discord.js';
+import { CommandHandler, CommandSetupHandler } from './bot-command';
 
 interface BotSubCommand {
     data: ApplicationCommandSubCommandData,
-    once?: (client?: Client) => void,
-    handler: (interaction: CommandInteraction) => void,
+    once?: CommandSetupHandler,
+    handler: CommandHandler,
 }
 
 export default BotSubCommand;
