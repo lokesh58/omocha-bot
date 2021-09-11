@@ -3,7 +3,7 @@ import BotCommand from './bot-command';
 
 const commands: BotCommand[] = [
   require('./misc/ping').default,
-  require('./moderation/welcome-message').default,
+  require('./moderation/welcome').default,
 ];
 
 export default commands;
