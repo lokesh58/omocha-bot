@@ -2,7 +2,7 @@ import { ApplicationCommandSubCommandData, Client, CommandInteraction } from 'di
 
 interface BotSubCommand {
     data: ApplicationCommandSubCommandData,
-    once?: (client: Client) => void,
+    once?: (client?: Client) => void,
     handler: (interaction: CommandInteraction) => void,
 }
 

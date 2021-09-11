@@ -2,7 +2,7 @@ import { ApplicationCommandSubGroupData, Client, CommandInteraction } from 'disc
 
 interface BotSubCommandGroup {
   data: ApplicationCommandSubGroupData,
-  once?: (client: Client) => void,
+  once?: (client?: Client) => void,
   handler: (interaction: CommandInteraction) => void,
 }
 
