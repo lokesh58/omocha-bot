@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { CollectorFilter, MessageActionRow, MessageButton, MessageComponentInteraction, MessageEmbed } from 'discord.js';
 import { welcomeModel } from '../../../models/welcome';
 import BotSubCommand from '../../bot-sub-command';
 
@@ -23,15 +23,21 @@ export default {
     ],
   },
   handler: async (interaction) => {
-    const { guildId, options } = interaction;
-    if (!guildId) {
-      throw new Error('Guild ID is null!');
+    const { channel: iChannel, guildId, options, user: iUser } = interaction;
+    if (!guildId || !iChannel) {
+      throw new Error('Guild ID or channel is null!');
     }
     const message = options.getString('message');
     const channel = options.getChannel('channel');
     if (!message && !channel) {
       interaction.reply({
         content: 'Atleast one of `message` or `channel` is required!',
+        ephemeral: true,
+      });
+      return;
+    } else if (channel && channel.type !== 'GUILD_TEXT') {
+      interaction.reply({
+        content: '`channel` must be a text channel!',
         ephemeral: true,
       });
       return;
@@ -45,11 +51,14 @@ export default {
         });
         return;
       }
-      welcomeDetails = await new welcomeModel({
+      welcomeDetails = new welcomeModel({
         _id: guildId,
         message,
         channelId: channel.id,
-      }).save();
+      });
+      if (!welcomeDetails) {
+        throw new Error('Failed to create Welcome Message Details!');
+      }
     } else {
       if (message) {
         welcomeDetails.message = message;
@@ -57,16 +66,60 @@ export default {
       if (channel) {
         welcomeDetails.channelId = channel.id;
       }
-      welcomeDetails = await welcomeDetails.save();
     }
-    interaction.editReply({
-      embeds: [
-        new MessageEmbed()
-          .setTitle('Welcome Message updated successfully')
-          .setColor('GREEN')
-          .addField('Message', welcomeDetails.message)
-          .addField('Channel', `<#${welcomeDetails.channelId}>`),
-      ],
+    const embed = new MessageEmbed()
+      .setTitle('Welcome Message Details')
+      .addField('Message', welcomeDetails.message)
+      .addField('Channel', `<#${welcomeDetails.channelId}>`);
+    const getActionRow = (disabled=false) => 
+      new MessageActionRow()
+        .addComponents([
+          new MessageButton()
+            .setCustomId('save')
+            .setLabel('Save')
+            .setStyle('SUCCESS')
+            .setDisabled(disabled),
+          new MessageButton()
+            .setCustomId('cancel')
+            .setLabel('Cancel')
+            .setStyle('SECONDARY')
+            .setDisabled(disabled),
+        ]);
+    const iMsg = await interaction.editReply({
+      content: '**Confirm the details to save**',
+      embeds: [embed],
+      components: [getActionRow()],
+    });
+    const filter: CollectorFilter<MessageComponentInteraction[]> = msgInteraction => 
+      msgInteraction.message.id === iMsg.id && msgInteraction.user.id === iUser.id;
+    const msgInteraction = await iChannel.awaitMessageComponent({ filter, time: 20000/*ms*/ }).catch(/* Do Nothing */);
+    if (!msgInteraction) {
+      interaction.editReply({
+        content: '**This message expired**',
+        embeds: [embed],
+        components: [getActionRow(true)]
+      });
+      return;
+    }
+    switch (msgInteraction.customId) {
+    case 'save':
+      await welcomeDetails.save();
+      embed.setTitle('Welcome Message Details Saved Successfully');
+      embed.setColor('GREEN');
+      break;
+    case 'cancel':
+      embed.setTitle('');
+      embed.setDescription('Save cancelled');
+      embed.setColor('RED');
+      embed.setFields([]);
+      break;
+    default:
+      throw new Error('Invalid Interaction ID recieved!');
+    }
+    msgInteraction.update({
+      content: null,
+      embeds: [embed],
+      components: [],
     });
   },
 } as BotSubCommand;
