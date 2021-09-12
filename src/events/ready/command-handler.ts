@@ -1,4 +1,4 @@
-import { Client, Collection } from 'discord.js';
+import { Client, Collection, InteractionReplyOptions } from 'discord.js';
 import commands from '../../commands';
 import { CommandHandler } from '../../commands/bot-command';
 import { onError } from '../../utils';
@@ -24,6 +24,15 @@ const startCommandHandling = (client: Client): void => {
       }
       handler(interaction);
     } catch (err) {
+      const msg: InteractionReplyOptions = {
+        content: 'An error occurred! Please try again.',
+        ephemeral: true,
+      };
+      if (interaction.replied) {
+        interaction.editReply(msg);
+      } else {
+        interaction.reply(msg);
+      }
       onError(err);
     }
   });

@@ -1,6 +1,6 @@
 import { ApplicationCommandData, Client, CommandInteraction } from 'discord.js';
 
-interface CommandSetupHandler {
+export interface CommandSetupHandler {
   (client?: Client): void,
 }
 
