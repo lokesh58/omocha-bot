@@ -1,7 +1,9 @@
-import { Client } from 'discord.js';
+import { Client, Intents } from 'discord.js';
 
 const client = new Client({
-  intents: [],
+  intents: [
+    Intents.FLAGS.GUILDS,
+  ],
 });
 
 export default client;

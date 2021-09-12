@@ -1,6 +1,5 @@
 import { MessageEmbed } from 'discord.js';
 import { welcomeModel } from '../../../models/welcome';
-import { guildOnlyError } from '../../../utils/constants';
 import BotSubCommand from '../../bot-sub-command';
 
 export default {
@@ -10,12 +9,11 @@ export default {
     type: 'SUB_COMMAND',
   },
   handler: async (interaction) => {
-    if (!interaction.inGuild()) {
-      interaction.reply(guildOnlyError);
-      return;
-    }
     await interaction.deferReply();
     const { guildId } = interaction;
+    if (!guildId) {
+      throw new Error('Guild ID is null!');
+    }
     const welcomeDetails = await welcomeModel.findById(guildId);
     if (!welcomeDetails) {
       interaction.editReply({

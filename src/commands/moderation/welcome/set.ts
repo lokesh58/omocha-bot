@@ -1,6 +1,5 @@
 import { MessageEmbed } from 'discord.js';
 import { welcomeModel } from '../../../models/welcome';
-import { guildOnlyError } from '../../../utils/constants';
 import BotSubCommand from '../../bot-sub-command';
 
 export default {
@@ -24,11 +23,10 @@ export default {
     ],
   },
   handler: async (interaction) => {
-    if (!interaction.inGuild()) {
-      interaction.reply(guildOnlyError);
-      return;
-    }
     const { guildId, options } = interaction;
+    if (!guildId) {
+      throw new Error('Guild ID is null!');
+    }
     const message = options.getString('message');
     const channel = options.getChannel('channel');
     if (!message && !channel) {
