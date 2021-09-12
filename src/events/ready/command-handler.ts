@@ -24,6 +24,10 @@ const startCommandHandling = (client: Client): void => {
       }
       handler(interaction);
     } catch (err) {
+      interaction.reply({
+        content: 'An error occurred! Please try again.',
+        ephemeral: true,
+      });
       onError(err);
     }
   });
