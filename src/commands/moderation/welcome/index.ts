@@ -29,6 +29,7 @@ export default {
         content: 'You need permission to manage the server to use this command!',
         ephemeral: true,
       });
+      return;
     }
     const subCmdName = options.getSubcommand(true);
     switch(subCmdName) {
