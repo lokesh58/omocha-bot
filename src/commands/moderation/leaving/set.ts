@@ -57,7 +57,7 @@ export default {
         channelId: channel.id,
       });
       if (!leavingDetails) {
-        throw new Error('Failed to create Welcome Message Details!');
+        throw new Error('Failed to create Leaving Message Details!');
       }
     } else {
       if (message) {
