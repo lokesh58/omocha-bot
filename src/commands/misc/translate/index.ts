@@ -4,7 +4,7 @@ import { MessageEmbed } from 'discord.js';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const languages: { [key: string]: string } = require('@iamtraction/google-translate').languages;
 
-const getISOCode = (language: string) => {
+const getISOCode = (language: string | null) => {
   if (!language) {
     return null;
   }
@@ -52,16 +52,10 @@ export default {
   handler: async (interaction) => {
     const { options } = interaction;
     const text = options.getString('text');
-    let from = getISOCode(options.getString('from') ?? 'auto');
-    let to = getISOCode(options.getString('to') ?? 'en');
+    const from = getISOCode(options.getString('from')) ?? 'auto';
+    const to = getISOCode(options.getString('to')) ?? 'en';
     if (!text) {
       throw new Error('text is null!');
-    }
-    if (!from) {
-      from = 'auto';
-    }
-    if (!to) {
-      to = 'en';
     }
     await interaction.deferReply();
     const result = await translate(text, {
