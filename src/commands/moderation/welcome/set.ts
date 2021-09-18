@@ -108,8 +108,7 @@ export default {
       embed.setColor('GREEN');
       break;
     case 'cancel':
-      embed.setTitle('');
-      embed.setDescription('Save cancelled');
+      embed.setTitle('Save cancelled');
       embed.setColor('RED');
       embed.setFields([]);
       break;

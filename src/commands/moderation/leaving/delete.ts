@@ -58,13 +58,12 @@ export default {
     switch (msgInteraction.customId) {
     case 'delete':
       await leavingDetails.delete();
-      embed.setTitle('');
-      embed.setDescription('Leaving Message Details Deleted Successfully');
+      embed.setTitle('Leaving Message Details Deleted Successfully');
       embed.setColor('GREEN');
       embed.setFields([]);
       break;
     case 'cancel':
-      embed.setDescription('Delete cancelled. Following data is retained');
+      embed.setTitle('Delete cancelled. Following data is retained');
       embed.setColor('RED');
       break;
     default:

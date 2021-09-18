@@ -59,13 +59,12 @@ export default {
     case 'delete':
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       await welcomeDetails.delete();
-      embed.setTitle('');
-      embed.setDescription('Welcome Message Details Deleted Successfully');
+      embed.setTitle('Welcome Message Details Deleted Successfully');
       embed.setColor('GREEN');
       embed.setFields([]);
       break;
     case 'cancel':
-      embed.setDescription('Delete cancelled. Following data is retained');
+      embed.setTitle('Delete cancelled. Following data is retained');
       embed.setColor('RED');
       break;
     default:
