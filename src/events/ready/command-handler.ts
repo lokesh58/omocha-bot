@@ -24,16 +24,16 @@ const startCommandHandling = (client: Client): void => {
       }
       await handler(interaction);
     } catch (err) {
+      onError(err);
       const msg: InteractionReplyOptions = {
         content: 'An error occurred! Please try again.',
         ephemeral: true,
       };
       if (interaction.replied) {
-        interaction.editReply(msg);
+        await interaction.editReply(msg);
       } else {
-        interaction.reply(msg);
+        await interaction.reply(msg);
       }
-      onError(err);
     }
   });
 };
