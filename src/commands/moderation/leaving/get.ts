@@ -21,7 +21,7 @@ export default {
       });
       return;
     }
-    interaction.editReply({
+    await interaction.editReply({
       embeds: [
         new MessageEmbed()
           .setTitle('Leaving Message Details')

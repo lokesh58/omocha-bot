@@ -30,13 +30,13 @@ export default {
     const message = options.getString('message');
     const channel = options.getChannel('channel');
     if (!message && !channel) {
-      interaction.reply({
+      await interaction.reply({
         content: 'Atleast one of `message` or `channel` is required!',
         ephemeral: true,
       });
       return;
     } else if (channel && channel.type !== 'GUILD_TEXT') {
-      interaction.reply({
+      await interaction.reply({
         content: '`channel` must be a text channel!',
         ephemeral: true,
       });
@@ -46,7 +46,7 @@ export default {
     let leavingDetails = await leavingModel.findById(guildId);
     if (!leavingDetails) {
       if (!message || !channel) {
-        interaction.editReply({
+        await interaction.editReply({
           content: 'Both `message` and `channel` are required because they are not set for this server!',
         });
         return;
@@ -92,9 +92,9 @@ export default {
     });
     const filter: CollectorFilter<MessageComponentInteraction[]> = msgInteraction => 
       msgInteraction.message.id === iMsg.id && msgInteraction.user.id === iUser.id;
-    const msgInteraction = await iChannel.awaitMessageComponent({ filter, time: 20000/*ms*/ }).catch(/* Do Nothing */);
+    const msgInteraction = await iChannel.awaitMessageComponent({ filter, time: 20000/*ms*/ }).catch(/* Do Nothing, handled below */);
     if (!msgInteraction) {
-      interaction.editReply({
+      await interaction.editReply({
         content: '**This message expired**',
         embeds: [embed],
         components: [getActionRow(true)]
@@ -116,7 +116,7 @@ export default {
     default:
       throw new Error('Invalid Interaction ID recieved!');
     }
-    msgInteraction.update({
+    await msgInteraction.update({
       content: null,
       embeds: [embed],
       components: [],

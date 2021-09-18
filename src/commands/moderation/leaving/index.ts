@@ -15,9 +15,9 @@ export default {
       deleteCmd.data,
     ],
   },
-  handler: (interaction) => {
+  handler: async (interaction) => {
     if (!interaction.inGuild()) {
-      interaction.reply(guildOnlyError);
+      await interaction.reply(guildOnlyError);
       return;
     }
     const { member, options } = interaction;
@@ -25,8 +25,8 @@ export default {
       throw new Error('member is not instance of GuildMember!');
     }
     if (!member.permissions.has('MANAGE_GUILD')) {
-      interaction.reply({
-        content: 'You need permission to manage the server to use this command!',
+      await interaction.reply({
+        content: 'You need `MANAGE_GUILD` permission to use this command!',
         ephemeral: true,
       });
       return;
@@ -34,14 +34,11 @@ export default {
     const subCmdName = options.getSubcommand(true);
     switch(subCmdName) {
     case getCmd.data.name:
-      getCmd.handler(interaction);
-      break;
+      return getCmd.handler(interaction);
     case setCmd.data.name:
-      setCmd.handler(interaction);
-      break;
+      return setCmd.handler(interaction);
     case deleteCmd.data.name:
-      deleteCmd.handler(interaction);
-      break;
+      return deleteCmd.handler(interaction);
     default:
       throw new Error(`Invalid Sub Command ${subCmdName} recieved!`);
     }
