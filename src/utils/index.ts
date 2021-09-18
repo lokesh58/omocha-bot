@@ -3,7 +3,7 @@ import { connect } from 'mongoose';
 import commands from '../commands';
 import events from '../events';
 
-export const registerCommands = (client: Client): void => {
+export const registerCommands = async (client: Client): Promise<void> => {
   const commandsData = commands.map(cmd => cmd.data);
   if (commandsData.length === 0) {
     console.log('No commands available!! Skipping command registration.');
@@ -15,13 +15,13 @@ export const registerCommands = (client: Client): void => {
       if (!testGuild) {
         throw new Error(`Failed to fetch test guild ${testGuildId}!`);
       }
-      testGuild.commands.set(commandsData);
+      await testGuild.commands.set(commandsData);
     } else {
       const app = client.application;
       if (!app) {
         throw new Error('Client does have any application associated with it!');
       }
-      app.commands.set(commandsData);
+      await app.commands.set(commandsData);
     }
   }
 };

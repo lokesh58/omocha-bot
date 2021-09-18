@@ -1,11 +1,11 @@
 import { ApplicationCommandData, Client, CommandInteraction } from 'discord.js';
 
 export interface CommandSetupHandler {
-  (client?: Client): void,
+  (client?: Client): Promise<void>,
 }
 
 export interface CommandHandler {
-  (interaction: CommandInteraction): void,
+  (interaction: CommandInteraction): Promise<void>,
 }
 
 interface BotCommand {

@@ -1,4 +1,3 @@
-import { onError } from '../../../utils';
 import BotCommand from '../../bot-command';
 
 const command: BotCommand = {
@@ -6,11 +5,11 @@ const command: BotCommand = {
     name: 'ping',
     description: 'Replies with pong.',
   },
-  handler: (interaction) => {
-    interaction.reply({
+  handler: async (interaction) => {
+    await interaction.reply({
       content: 'Pong!',
       ephemeral: true,
-    }).catch(onError);
+    });
   },
 };
 

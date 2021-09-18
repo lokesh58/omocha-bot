@@ -9,7 +9,7 @@ const startCommandHandling = (client: Client): void => {
     cmd.once && cmd.once(client);
     handlers.set(cmd.data.name, cmd.handler);
   });
-  client.on('interactionCreate', (interaction) => {
+  client.on('interactionCreate', async (interaction) => {
     if (!interaction.isCommand()) {
       return;
     }
@@ -22,18 +22,18 @@ const startCommandHandling = (client: Client): void => {
       if (!handler) {
         throw new Error(`Unknown command <${cmd.id}, ${cmd.name}> recieved!`);
       }
-      handler(interaction);
+      await handler(interaction);
     } catch (err) {
+      onError(err);
       const msg: InteractionReplyOptions = {
         content: 'An error occurred! Please try again.',
         ephemeral: true,
       };
       if (interaction.replied) {
-        interaction.editReply(msg);
+        await interaction.editReply(msg);
       } else {
-        interaction.reply(msg);
+        await interaction.reply(msg);
       }
-      onError(err);
     }
   });
 };

@@ -16,7 +16,7 @@ export default {
     }
     const leavingDetails = await leavingModel.findById(guildId);
     if (!leavingDetails) {
-      interaction.editReply({
+      await interaction.editReply({
         content: 'Leaving Message is not set for the server!',
       });
       return;
@@ -46,9 +46,9 @@ export default {
     });
     const filter: CollectorFilter<MessageComponentInteraction[]> = msgInteraction => 
       msgInteraction.message.id === iMsg.id && msgInteraction.user.id === user.id;
-    const msgInteraction = await channel.awaitMessageComponent({ filter, time: 20000/*ms*/ }).catch(/* Do Nothing */);
+    const msgInteraction = await channel.awaitMessageComponent({ filter, time: 20000/*ms*/ }).catch(/* Do Nothing, handled below */);
     if (!msgInteraction) {
-      interaction.editReply({
+      await interaction.editReply({
         content: '**This message expired**',
         embeds: [embed],
         components: [getActionRow(true)]
@@ -57,7 +57,6 @@ export default {
     }
     switch (msgInteraction.customId) {
     case 'delete':
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       await leavingDetails.delete();
       embed.setTitle('');
       embed.setDescription('Leaving Message Details Deleted Successfully');
@@ -71,7 +70,7 @@ export default {
     default:
       throw new Error('Invalid Interaction ID recieved!');
     }
-    msgInteraction.update({
+    await msgInteraction.update({
       content: null,
       embeds: [embed],
       components: [],

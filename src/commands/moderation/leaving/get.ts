@@ -16,12 +16,12 @@ export default {
     }
     const leavingDetails = await leavingModel.findById(guildId);
     if (!leavingDetails) {
-      interaction.editReply({
+      await interaction.editReply({
         content: 'Leaving Message is not set for the server!',
       });
       return;
     }
-    interaction.editReply({
+    await interaction.editReply({
       embeds: [
         new MessageEmbed()
           .setTitle('Leaving Message Details')
