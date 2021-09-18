@@ -16,12 +16,12 @@ export default {
     }
     const welcomeDetails = await welcomeModel.findById(guildId);
     if (!welcomeDetails) {
-      interaction.editReply({
+      await interaction.editReply({
         content: 'Welcome Message is not set for the server!',
       });
       return;
     }
-    interaction.editReply({
+    await interaction.editReply({
       embeds: [
         new MessageEmbed()
           .setTitle('Welcome Message Details')

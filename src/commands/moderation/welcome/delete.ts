@@ -16,7 +16,7 @@ export default {
     }
     const welcomeDetails = await welcomeModel.findById(guildId);
     if (!welcomeDetails) {
-      interaction.editReply({
+      await interaction.editReply({
         content: 'Welcome Message is not set for the server!',
       });
       return;
@@ -46,9 +46,9 @@ export default {
     });
     const filter: CollectorFilter<MessageComponentInteraction[]> = msgInteraction => 
       msgInteraction.message.id === iMsg.id && msgInteraction.user.id === user.id;
-    const msgInteraction = await channel.awaitMessageComponent({ filter, time: 20000/*ms*/ }).catch(/* Do Nothing */);
+    const msgInteraction = await channel.awaitMessageComponent({ filter, time: 20000/*ms*/ }).catch(/* Do Nothing, handled below */);
     if (!msgInteraction) {
-      interaction.editReply({
+      await interaction.editReply({
         content: '**This message expired**',
         embeds: [embed],
         components: [getActionRow(true)]
@@ -71,7 +71,7 @@ export default {
     default:
       throw new Error('Invalid Interaction ID recieved!');
     }
-    msgInteraction.update({
+    await msgInteraction.update({
       content: null,
       embeds: [embed],
       components: [],
