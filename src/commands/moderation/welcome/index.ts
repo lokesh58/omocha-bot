@@ -2,7 +2,7 @@ import BotCommand from '../../bot-command';
 import getCmd from './get';
 import setCmd from './set';
 import deleteCmd from './delete';
-import { guildOnlyError } from '../../../utils/constants';
+import { guildOnlyError } from '../../command-utils/constants';
 import { GuildMember } from 'discord.js';
 
 export default {
