@@ -32,13 +32,11 @@ export default {
     if (!message && !channel) {
       await interaction.followUp({
         content: 'Atleast one of `message` or `channel` is required!',
-        ephemeral: true,
       });
       return;
     } else if (channel && channel.type !== 'GUILD_TEXT') {
       await interaction.followUp({
         content: '`channel` must be a text channel!',
-        ephemeral: true,
       });
       return;
     }
@@ -47,7 +45,6 @@ export default {
       if (!message || !channel) {
         await interaction.followUp({
           content: 'Both `message` and `channel` are required because they are not set for this server!',
-          ephemeral: true,
         });
         return;
       }
@@ -76,7 +73,6 @@ export default {
           .addField('Channel', `<#${leavingDetails.channelId}>`)
           .setColor('GREEN'),
       ],
-      ephemeral: true,
     });
   },
 } as BotSubCommand;

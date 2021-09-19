@@ -17,7 +17,6 @@ export default {
     if (!leavingDetails) {
       await interaction.followUp({
         content: 'Leaving Message is not set for the server!',
-        ephemeral: true,
       });
       return;
     }
@@ -28,7 +27,6 @@ export default {
           .addField('Message', leavingDetails.message)
           .addField('Channel', `<#${leavingDetails.channelId}>`),
       ],
-      ephemeral: true,
     });
   },
 } as BotSubCommand;

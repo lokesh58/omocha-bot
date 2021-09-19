@@ -16,14 +16,12 @@ export default {
     if (!leavingDetails) {
       await interaction.followUp({
         content: 'Leaving Message is not set for the server!',
-        ephemeral: true,
       });
       return;
     }
     await leavingDetails.delete();
     await interaction.followUp({
       content: 'Leaving Message deleted successfully.',
-      ephemeral: true,
     });
   },
 } as BotSubCommand;

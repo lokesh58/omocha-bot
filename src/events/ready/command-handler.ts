@@ -14,7 +14,7 @@ const startCommandHandling = (client: Client): void => {
       return;
     }
     try {
-      await interaction.deferReply({ ephemeral: true });
+      await interaction.deferReply();
       const cmd = interaction.command;
       if (!cmd) {
         throw new Error('No command in commandInteraction!');
@@ -28,7 +28,6 @@ const startCommandHandling = (client: Client): void => {
       onError(err);
       await interaction.followUp({
         content: 'An error occurred! Please try again.',
-        ephemeral: true,
       });
     }
   });

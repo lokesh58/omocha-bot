@@ -8,7 +8,6 @@ const command: BotCommand = {
   handler: async (interaction) => {
     await interaction.followUp({
       content: 'Pong!',
-      ephemeral: true,
     });
   },
 };

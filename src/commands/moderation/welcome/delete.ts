@@ -16,14 +16,12 @@ export default {
     if (!welcomeDetails) {
       await interaction.followUp({
         content: 'Welcome Message is not set for the server!',
-        ephemeral: true,
       });
       return;
     }
     await welcomeDetails.delete();
     await interaction.followUp({
       content: 'Welcome Message deleted successfully.',
-      ephemeral: true,
     });
   },
 } as BotSubCommand;

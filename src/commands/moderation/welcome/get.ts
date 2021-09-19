@@ -17,7 +17,6 @@ export default {
     if (!welcomeDetails) {
       await interaction.followUp({
         content: 'Welcome Message is not set for the server!',
-        ephemeral: true,
       });
       return;
     }
@@ -28,7 +27,6 @@ export default {
           .addField('Message', welcomeDetails.message)
           .addField('Channel', `<#${welcomeDetails.channelId}>`),
       ],
-      ephemeral: true,
     });
   },
 } as BotSubCommand;
