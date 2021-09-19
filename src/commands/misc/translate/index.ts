@@ -12,15 +12,12 @@ const getISOCode = (language: string | null) => {
   if (language in languages) {
     return language;
   }
-
   const keys = Object.keys(languages).filter((key) => {
     if (typeof languages[key] !== 'string') {
       return null;
     }
-
     return languages[key].toLowerCase() === language;
   });
-
   return keys[0] || null;
 };
 
@@ -57,17 +54,17 @@ export default {
     if (!text) {
       throw new Error('text is null!');
     }
-    await interaction.deferReply();
     const result = await translate(text, {
       from,
       to,
     });
-    const embed = new MessageEmbed()
-      .setTitle('Translation Results')
-      .addField(`Original Text - ${languages[result.from.language.iso]}`, result.from.text.value || text)
-      .addField(`Translated Text - ${languages[to]}`, result.text);
-    await interaction.editReply({
-      embeds: [embed],
+    await interaction.followUp({
+      embeds: [
+        new MessageEmbed()
+          .setTitle('Translation Results')
+          .addField(`Original Text - ${languages[result.from.language.iso]}`, result.from.text.value || text)
+          .addField(`Translated Text - ${languages[to]}`, result.text),
+      ],
     });
   },
 } as BotCommand;

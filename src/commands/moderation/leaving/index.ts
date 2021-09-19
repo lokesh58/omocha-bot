@@ -2,7 +2,7 @@ import BotCommand from '../../bot-command';
 import getCmd from './get';
 import setCmd from './set';
 import deleteCmd from './delete';
-import { guildOnlyError } from '../../command-utils/constants';
+import { guildOnlyError, permissionError } from '../../command-utils/constants';
 import { GuildMember } from 'discord.js';
 
 export default {
@@ -17,7 +17,7 @@ export default {
   },
   handler: async (interaction) => {
     if (!interaction.inGuild()) {
-      await interaction.reply(guildOnlyError);
+      await interaction.followUp(guildOnlyError);
       return;
     }
     const { member, options } = interaction;
@@ -25,10 +25,7 @@ export default {
       throw new Error('member is not instance of GuildMember!');
     }
     if (!member.permissions.has('MANAGE_GUILD')) {
-      await interaction.reply({
-        content: 'You need `MANAGE_GUILD` permission to use this command!',
-        ephemeral: true,
-      });
+      await interaction.followUp(permissionError(['MANAGE_GUILD']));
       return;
     }
     const subCmdName = options.getSubcommand(true);

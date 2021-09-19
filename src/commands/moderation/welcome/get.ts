@@ -9,25 +9,26 @@ export default {
     type: 'SUB_COMMAND',
   },
   handler: async (interaction) => {
-    await interaction.deferReply();
     const { guildId } = interaction;
     if (!guildId) {
       throw new Error('Guild ID is null!');
     }
     const welcomeDetails = await welcomeModel.findById(guildId);
     if (!welcomeDetails) {
-      await interaction.editReply({
+      await interaction.followUp({
         content: 'Welcome Message is not set for the server!',
+        ephemeral: true,
       });
       return;
     }
-    await interaction.editReply({
+    await interaction.followUp({
       embeds: [
         new MessageEmbed()
           .setTitle('Welcome Message Details')
           .addField('Message', welcomeDetails.message)
           .addField('Channel', `<#${welcomeDetails.channelId}>`),
       ],
+      ephemeral: true,
     });
   },
 } as BotSubCommand;
