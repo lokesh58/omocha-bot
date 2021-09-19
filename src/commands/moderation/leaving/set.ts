@@ -68,7 +68,7 @@ export default {
     await interaction.followUp({
       embeds: [
         new MessageEmbed()
-          .setTitle('Leaving Message Details')
+          .setTitle('Leaving Message Details Set Successfully')
           .addField('Message', leavingDetails.message)
           .addField('Channel', `<#${leavingDetails.channelId}>`)
           .setColor('GREEN'),
