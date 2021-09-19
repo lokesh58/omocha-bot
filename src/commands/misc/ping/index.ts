@@ -6,9 +6,8 @@ const command: BotCommand = {
     description: 'Replies with pong.',
   },
   handler: async (interaction) => {
-    await interaction.reply({
+    await interaction.followUp({
       content: 'Pong!',
-      ephemeral: true,
     });
   },
 };

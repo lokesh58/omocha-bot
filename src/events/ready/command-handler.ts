@@ -13,8 +13,9 @@ const startCommandHandling = (client: Client): void => {
     if (!interaction.isCommand()) {
       return;
     }
-    const cmd = interaction.command;
     try {
+      await interaction.deferReply();
+      const cmd = interaction.command;
       if (!cmd) {
         throw new Error('No command in commandInteraction!');
       }
@@ -25,16 +26,9 @@ const startCommandHandling = (client: Client): void => {
       await handler(interaction);
     } catch (err) {
       onError(err);
-      if (interaction.replied) {
-        await interaction.editReply({
-          content: 'An error occurred! Please try again.',
-          components: [],
-          embeds: [],
-          files: [],
-        });
-      } else {
-        await interaction.reply({ content: 'An error occurred! Please try again.', ephemeral: true });
-      }
+      await interaction.followUp({
+        content: 'An error occurred! Please try again.',
+      });
     }
   });
 };

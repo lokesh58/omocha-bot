@@ -9,19 +9,18 @@ export default {
     type: 'SUB_COMMAND',
   },
   handler: async (interaction) => {
-    await interaction.deferReply();
     const { guildId } = interaction;
     if (!guildId) {
       throw new Error('Guild ID is null!');
     }
     const leavingDetails = await leavingModel.findById(guildId);
     if (!leavingDetails) {
-      await interaction.editReply({
+      await interaction.followUp({
         content: 'Leaving Message is not set for the server!',
       });
       return;
     }
-    await interaction.editReply({
+    await interaction.followUp({
       embeds: [
         new MessageEmbed()
           .setTitle('Leaving Message Details')
