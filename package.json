@@ -16,7 +16,9 @@
     "@iamtraction/google-translate": "^1.1.2",
     "discord.js": "^13.1.0",
     "dotenv": "^10.0.0",
-    "mongoose": "^6.0.5"
+    "mongoose": "^6.0.5",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.30.0",
