@@ -22,7 +22,7 @@ const event: BotEvent = (client) => {
         throw new Error(`Leaving channel is not text channel for guild with id ${guild.id}!`);
       }
       await channel.send({
-        content: message.replace(/<@>/g, `<@${member.id}>`),
+        content: message.replace(/<@>/g, `<@${member.id}> (${member.user?.tag || member.displayName})`),
       });
     } catch (err) {
       onError(err);
