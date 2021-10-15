@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose';
 import { reqString } from './constants';
 
-export interface Welcome {
+interface Welcome {
   _id: string,
   message: string,
   channelId: string,

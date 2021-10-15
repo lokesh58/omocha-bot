@@ -60,9 +60,6 @@ export default {
         message,
         channelId: channel.id,
       });
-      if (!leavingDetails) {
-        throw new Error('Failed to create Leaving Message Details!');
-      }
     } else {
       if (message) {
         leavingDetails.message = message;
