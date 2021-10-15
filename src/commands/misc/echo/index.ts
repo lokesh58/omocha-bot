@@ -17,6 +17,12 @@ export default {
         description: 'The channel where message will be echoed.',
         type: 'CHANNEL',
         required: false,
+      },
+      {
+        name: 'reply_to_message_id',
+        description: 'ID of a message to make sent message a reply to that message.',
+        type: 'STRING',
+        required: false,
       }
     ],
   },
@@ -24,6 +30,7 @@ export default {
     const { options, channel: iChannel, member } = interaction;
     const message = options.getString('message', true);
     const channel = options.getChannel('channel') || iChannel as TextBasedChannels;
+    const replyMsgId = options.getString('reply_to_message_id') || '';
     if (channel.type !== 'GUILD_TEXT' && channel.type !== 'DM') {
       await interaction.reply({
         content: '`channel` must be a text channel',
@@ -41,6 +48,7 @@ export default {
     await interaction.deferReply({ ephemeral: true });
     await (channel as TextBasedChannels).send({
       content: message,
+      reply: { messageReference: replyMsgId, failIfNotExists: false },
     });
     await interaction.editReply({
       embeds: [
