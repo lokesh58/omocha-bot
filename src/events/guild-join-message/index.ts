@@ -6,10 +6,7 @@ const event: BotEvent = (client) => {
   client.on('guildCreate', async (guild) => {
     try{
       const { systemChannel } = guild;
-      if (!systemChannel) {
-        return;
-      }
-      await systemChannel.send({
+      await systemChannel?.send({
         embeds: [
           new MessageEmbed()
             .setTitle(`Thank You for Inviting Me to ${guild.name}`)

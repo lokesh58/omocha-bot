@@ -1,3 +1,4 @@
+import { MessageEmbed } from 'discord.js';
 import { leavingModel } from '../../../models/leaving';
 import BotSubCommand from '../../bot-sub-command';
 
@@ -12,16 +13,25 @@ export default {
     if (!guildId) {
       throw new Error('Guild ID is null!');
     }
+    await interaction.deferReply();
     const leavingDetails = await leavingModel.findById(guildId);
     if (!leavingDetails) {
-      await interaction.followUp({
-        content: 'Leaving Message is not set for the server!',
+      await interaction.editReply({
+        embeds: [
+          new MessageEmbed()
+            .setDescription('Leaving Message is not set for the server!')
+            .setColor('RED'),
+        ]
       });
       return;
     }
     await leavingDetails.delete();
-    await interaction.followUp({
-      content: 'Leaving Message deleted successfully.',
+    await interaction.editReply({
+      embeds: [
+        new MessageEmbed()
+          .setDescription('Leaving Message deleted successfully.')
+          .setColor('GREEN'),
+      ]
     });
   },
 } as BotSubCommand;

@@ -1,3 +1,4 @@
+import { MessageEmbed } from 'discord.js';
 import { welcomeModel } from '../../../models/welcome';
 import BotSubCommand from '../../bot-sub-command';
 
@@ -12,16 +13,25 @@ export default {
     if (!guildId) {
       throw new Error('Guild ID is null!');
     }
+    await interaction.deferReply();
     const welcomeDetails = await welcomeModel.findById(guildId);
     if (!welcomeDetails) {
-      await interaction.followUp({
-        content: 'Welcome Message is not set for the server!',
+      await interaction.editReply({
+        embeds: [
+          new MessageEmbed()
+            .setDescription('Welcome Message is not set for the server!')
+            .setColor('RED')
+        ]
       });
       return;
     }
     await welcomeDetails.delete();
-    await interaction.followUp({
-      content: 'Welcome Message deleted successfully.',
+    await interaction.editReply({
+      embeds: [
+        new MessageEmbed()
+          .setDescription('Welcome Message deleted successfully.')
+          .setColor('GREEN')
+      ]
     });
   },
 } as BotSubCommand;

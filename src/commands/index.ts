@@ -6,6 +6,7 @@ const commands: BotCommand[] = [
   require('./moderation/welcome').default,
   require('./moderation/leaving').default,
   require('./misc/translate').default,
+  require('./misc/echo').default,
 ];
 
 export default commands;

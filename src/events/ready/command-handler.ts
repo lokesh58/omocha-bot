@@ -1,4 +1,4 @@
-import { Client, Collection } from 'discord.js';
+import { Client, Collection, InteractionReplyOptions, MessageEmbed } from 'discord.js';
 import commands from '../../commands';
 import { CommandHandler } from '../../commands/bot-command';
 import { onError } from '../../utils';
@@ -14,7 +14,6 @@ const startCommandHandling = (client: Client): void => {
       return;
     }
     try {
-      await interaction.deferReply();
       const cmd = interaction.command;
       if (!cmd) {
         throw new Error('No command in commandInteraction!');
@@ -26,9 +25,19 @@ const startCommandHandling = (client: Client): void => {
       await handler(interaction);
     } catch (err) {
       onError(err);
-      await interaction.followUp({
-        content: 'An error occurred! Please try again.',
-      });
+      const errorResponse: InteractionReplyOptions = {
+        embeds: [
+          new MessageEmbed()
+            .setDescription('An error occurred! Please try again.')
+            .setColor('RED')
+        ],
+        ephemeral: true,
+      };
+      if (interaction.replied) {
+        await interaction.followUp(errorResponse).catch(console.error);
+      } else {
+        await interaction.reply(errorResponse).catch(console.error);
+      }
     }
   });
 };
