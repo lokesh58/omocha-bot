@@ -14,7 +14,7 @@ const startCommandHandling = (client: Client): void => {
       return;
     }
     try {
-      const cmd = interaction.command;
+      const { command: cmd, user } = interaction;
       if (!cmd) {
         throw new Error('No command in commandInteraction!');
       }
@@ -22,6 +22,7 @@ const startCommandHandling = (client: Client): void => {
       if (!handler) {
         throw new Error(`Unknown command <${cmd.id}, ${cmd.name}> recieved!`);
       }
+      console.log(`Running command ${cmd.name} on request by <${user.id}, ${user.tag}>`);
       await handler(interaction);
     } catch (err) {
       onError(err);
