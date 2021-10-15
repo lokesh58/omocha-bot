@@ -60,9 +60,6 @@ export default {
         message,
         channelId: channel.id,
       });
-      if (!welcomeDetails) {
-        throw new Error('Failed to create Welcome Message Details!');
-      }
     } else {
       if (message) {
         welcomeDetails.message = message;
