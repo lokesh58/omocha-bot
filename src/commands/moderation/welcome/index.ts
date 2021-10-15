@@ -17,15 +17,12 @@ export default {
   },
   handler: async (interaction) => {
     if (!interaction.inGuild()) {
-      await interaction.followUp(guildOnlyError);
+      await interaction.reply(guildOnlyError);
       return;
     }
     const { member, options } = interaction;
-    if (!(member instanceof GuildMember)) {
-      throw new Error('member is not instance of GuildMember!');
-    }
-    if (!member.permissions.has('MANAGE_GUILD')) {
-      await interaction.followUp(permissionError(['MANAGE_GUILD']));
+    if (!(member as GuildMember).permissions.has('MANAGE_GUILD')) {
+      await interaction.reply(permissionError(['MANAGE_GUILD']));
       return;
     }
     const subCmdName = options.getSubcommand(true);

@@ -5,7 +5,7 @@ import BotSubCommand from '../../bot-sub-command';
 export default {
   data: {
     name: 'set',
-    description: 'Set the leaving message or leaving channel for the server.',
+    description: 'Set the leaving message and/or leaving channel for the server.',
     type: 'SUB_COMMAND',
     options: [
       {
@@ -30,21 +30,28 @@ export default {
     const message = options.getString('message');
     const channel = options.getChannel('channel');
     if (!message && !channel) {
-      await interaction.followUp({
+      await interaction.reply({
         content: 'Atleast one of `message` or `channel` is required!',
+        ephemeral: true,
       });
       return;
     } else if (channel && channel.type !== 'GUILD_TEXT') {
-      await interaction.followUp({
+      await interaction.reply({
         content: '`channel` must be a text channel!',
+        ephemeral: true,
       });
       return;
     }
+    await interaction.deferReply();
     let leavingDetails = await leavingModel.findById(guildId);
     if (!leavingDetails) {
-      if (!message || !channel) {
-        await interaction.followUp({
-          content: 'Both `message` and `channel` are required because they are not set for this server!',
+      if (!(message && channel)) {
+        await interaction.editReply({
+          embeds: [
+            new MessageEmbed()
+              .setDescription('Both `message` and `channel` are required because leaving details are not set for this server!')
+              .setColor('RED')
+          ]
         });
         return;
       }
@@ -65,7 +72,7 @@ export default {
       }
     }
     leavingDetails = await leavingDetails.save();
-    await interaction.followUp({
+    await interaction.editReply({
       embeds: [
         new MessageEmbed()
           .setTitle('Leaving Message Details Set Successfully')

@@ -5,7 +5,7 @@ import BotSubCommand from '../../bot-sub-command';
 export default {
   data: {
     name: 'set',
-    description: 'Set the welcome message or welcome channel for the server.',
+    description: 'Set the welcome message and/or welcome channel for the server.',
     type: 'SUB_COMMAND',
     options: [
       {
@@ -30,21 +30,28 @@ export default {
     const message = options.getString('message');
     const channel = options.getChannel('channel');
     if (!message && !channel) {
-      await interaction.followUp({
+      await interaction.reply({
         content: 'Atleast one of `message` or `channel` is required!',
+        ephemeral: true,
       });
       return;
     } else if (channel && channel.type !== 'GUILD_TEXT') {
-      await interaction.followUp({
+      await interaction.reply({
         content: '`channel` must be a text channel!',
+        ephemeral: true,
       });
       return;
     }
+    await interaction.deferReply();
     let welcomeDetails = await welcomeModel.findById(guildId);
     if (!welcomeDetails) {
       if (!message || !channel) {
-        await interaction.followUp({
-          content: 'Both `message` and `channel` are required because they are not set for this server!',
+        await interaction.editReply({
+          embeds: [
+            new MessageEmbed()
+              .setDescription('Both `message` and `channel` are required because welcome details are not set for this server!')
+              .setColor('RED')
+          ]
         });
         return;
       }
@@ -65,7 +72,7 @@ export default {
       }
     }
     welcomeDetails = await welcomeDetails.save();
-    await interaction.followUp({
+    await interaction.editReply({
       embeds: [
         new MessageEmbed()
           .setTitle('Welcome Message Details Set Successfully')

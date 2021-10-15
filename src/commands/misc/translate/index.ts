@@ -48,17 +48,16 @@ export default {
   },
   handler: async (interaction) => {
     const { options } = interaction;
-    const text = options.getString('text');
-    const from = getISOCode(options.getString('from')) ?? 'auto';
-    const to = getISOCode(options.getString('to')) ?? 'en';
-    if (!text) {
-      throw new Error('text is null!');
-    }
+    const text = options.getString('text', true);
+    const from = getISOCode(options.getString('from')) || 'auto';
+    const to = getISOCode(options.getString('to')) || 'en';
+
+    await interaction.deferReply();
     const result = await translate(text, {
       from,
       to,
     });
-    await interaction.followUp({
+    await interaction.editReply({
       embeds: [
         new MessageEmbed()
           .setTitle('Translation Results')

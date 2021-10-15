@@ -13,14 +13,18 @@ export default {
     if (!guildId) {
       throw new Error('Guild ID is null!');
     }
+    await interaction.deferReply();
     const welcomeDetails = await welcomeModel.findById(guildId);
     if (!welcomeDetails) {
-      await interaction.followUp({
-        content: 'Welcome Message is not set for the server!',
+      await interaction.editReply({
+        embeds: [
+          new MessageEmbed()
+            .setDescription('Welcome Message is not set for the server!')
+        ]
       });
       return;
     }
-    await interaction.followUp({
+    await interaction.editReply({
       embeds: [
         new MessageEmbed()
           .setTitle('Welcome Message Details')

@@ -13,14 +13,18 @@ export default {
     if (!guildId) {
       throw new Error('Guild ID is null!');
     }
+    await interaction.deferReply();
     const leavingDetails = await leavingModel.findById(guildId);
     if (!leavingDetails) {
-      await interaction.followUp({
-        content: 'Leaving Message is not set for the server!',
+      await interaction.editReply({
+        embeds: [
+          new MessageEmbed()
+            .setDescription('Leaving Message is not set for the server!')
+        ]
       });
       return;
     }
-    await interaction.followUp({
+    await interaction.editReply({
       embeds: [
         new MessageEmbed()
           .setTitle('Leaving Message Details')
