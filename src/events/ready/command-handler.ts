@@ -33,7 +33,7 @@ const startCommandHandling = (client: Client): void => {
         ],
         ephemeral: true,
       };
-      if (interaction.replied) {
+      if (interaction.replied || interaction.deferred) {
         await interaction.followUp(errorResponse).catch(console.error);
       } else {
         await interaction.reply(errorResponse).catch(console.error);
