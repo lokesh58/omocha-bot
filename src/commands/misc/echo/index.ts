@@ -25,29 +25,31 @@ export default {
     const message = options.getString('message', true);
     const channel = options.getChannel('channel') || iChannel as TextBasedChannels;
     if (channel.type !== 'GUILD_TEXT' && channel.type !== 'DM') {
-      await interaction.followUp({
+      await interaction.reply({
         content: '`channel` must be a text channel',
         ephemeral: true,
       });
       return;
     }
     if (channel.type === 'GUILD_TEXT' && !(member as GuildMember).permissionsIn(channel).has('SEND_MESSAGES')) {
-      await interaction.followUp({
+      await interaction.reply({
         content: 'You do not have permissions to send messages in the channel',
         ephemeral: true,
       });
       return;
     }
+    await interaction.deferReply({ ephemeral: true });
     await (channel as TextBasedChannels).send({
       content: message,
     });
-    await interaction.followUp({
+    await interaction.editReply({
       embeds: [
         new MessageEmbed()
           .setTitle('Message was sent successfully')
+          .addField('Message', message)
+          .addField('Channel', `<#${channel.id}>`)
           .setColor('GREEN'),
       ],
-      ephemeral: true,
     });
   }
 } as BotCommand;
