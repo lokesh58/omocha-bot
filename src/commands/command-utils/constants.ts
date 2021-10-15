@@ -6,5 +6,6 @@ export const guildOnlyError: InteractionReplyOptions = {
 };
 
 export const permissionError = (permissions: string[]): InteractionReplyOptions => ({
-  content: `You need \`${permissions.join('`, `')}\` to use this command.`,
+  content: `You need \`${permissions.join('`, `')}\` permissions to use this command.`,
+  ephemeral: true,
 });
