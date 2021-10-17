@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionData, Client, ClientEvents, CommandInteraction, PermissionResolvable } from 'discord.js';
 
-export type IBotCommand = {
+export type BotCommand = {
   name: string,
   description: string,
   options?: ApplicationCommandOptionData,
@@ -13,7 +13,7 @@ export type IBotCommand = {
   handler: (interaction: CommandInteraction) => Promise<void>,
 };
 
-export type IBotEvent = keyof ClientEvents extends infer event ? event extends keyof ClientEvents ? {
+export type BotEvent = keyof ClientEvents extends infer event ? event extends keyof ClientEvents ? {
   name: event,
   handler: (...args: ClientEvents[event]) => Promise<void>,
 } : never : never;
