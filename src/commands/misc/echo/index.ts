@@ -24,7 +24,7 @@ export default {
         description: 'ID of a message to make echoed message a reply to that message.',
         type: 'STRING',
         required: false,
-      }
+      },
     ],
   },
   handler: async (interaction) => {
@@ -64,5 +64,5 @@ export default {
           .setColor('GREEN'),
       ],
     });
-  }
+  },
 } as BotCommand;

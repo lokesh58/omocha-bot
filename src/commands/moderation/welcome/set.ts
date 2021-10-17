@@ -19,7 +19,7 @@ export default {
         description: 'The bot\'s welcome channel for the server.',
         type: 'CHANNEL',
         required: false,
-      }
+      },
     ],
   },
   handler: async (interaction) => {
@@ -50,8 +50,8 @@ export default {
           embeds: [
             new MessageEmbed()
               .setDescription('Both `message` and `channel` are required because welcome details are not set for this server!')
-              .setColor('RED')
-          ]
+              .setColor('RED'),
+          ],
         });
         return;
       }

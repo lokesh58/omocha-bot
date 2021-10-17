@@ -12,8 +12,8 @@ const command: BotCommand = {
       content: 'Pong!',
       embeds: [
         new MessageEmbed()
-          .setDescription(`Websocket Ping: ${ws.ping}ms`)
-      ]
+          .setDescription(`Websocket Ping: ${ws.ping}ms`),
+      ],
     });
   },
 };

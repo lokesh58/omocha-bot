@@ -19,8 +19,8 @@ export default {
       await interaction.editReply({
         embeds: [
           new MessageEmbed()
-            .setDescription('Welcome Message is not set for the server!')
-        ]
+            .setDescription('Welcome Message is not set for the server!'),
+        ],
       });
       return;
     }

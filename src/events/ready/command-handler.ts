@@ -30,7 +30,7 @@ const startCommandHandling = (client: Client): void => {
         embeds: [
           new MessageEmbed()
             .setDescription('An error occurred! Please try again.')
-            .setColor('RED')
+            .setColor('RED'),
         ],
         ephemeral: true,
       };

@@ -1,7 +1,7 @@
 import BotCommand from '../../bot-command';
 import translate from '@iamtraction/google-translate';
 import { MessageEmbed } from 'discord.js';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires, prefer-destructuring
 const languages: { [key: string]: string } = require('@iamtraction/google-translate').languages;
 
 const getISOCode = (language: string | null) => {
@@ -44,7 +44,7 @@ export default {
         type: 'STRING',
         required: false,
       },
-    ]
+    ],
   },
   handler: async (interaction) => {
     const { options } = interaction;

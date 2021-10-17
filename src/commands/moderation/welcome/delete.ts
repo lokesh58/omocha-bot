@@ -20,8 +20,8 @@ export default {
         embeds: [
           new MessageEmbed()
             .setDescription('Welcome Message is not set for the server!')
-            .setColor('RED')
-        ]
+            .setColor('RED'),
+        ],
       });
       return;
     }
@@ -30,8 +30,8 @@ export default {
       embeds: [
         new MessageEmbed()
           .setDescription('Welcome Message deleted successfully.')
-          .setColor('GREEN')
-      ]
+          .setColor('GREEN'),
+      ],
     });
   },
 } as BotSubCommand;

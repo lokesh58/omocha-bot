@@ -21,7 +21,7 @@ export default {
           new MessageEmbed()
             .setDescription('Leaving Message is not set for the server!')
             .setColor('RED'),
-        ]
+        ],
       });
       return;
     }
@@ -31,7 +31,7 @@ export default {
         new MessageEmbed()
           .setDescription('Leaving Message deleted successfully.')
           .setColor('GREEN'),
-      ]
+      ],
     });
   },
 } as BotSubCommand;
