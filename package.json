@@ -17,9 +17,11 @@
     "@iamtraction/google-translate": "^1.1.2",
     "discord.js": "^13.1.0",
     "dotenv": "^10.0.0",
+    "glob": "^7.2.0",
     "mongoose": "^6.0.5"
   },
   "devDependencies": {
+    "@types/glob": "^7.1.4",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "eslint": "^7.32.0",
