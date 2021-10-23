@@ -10,7 +10,7 @@ export default {
         const { guild } = member;
         const welcomeDetails = await welcomeModel.findById(guild.id);
         if (!welcomeDetails) {
-          console.log(`Welcome Details not found for guild ${guild.id}`);
+          console.log(`Welcome Details not found for guild <${guild.name}, ${guild.id}>`);
           return;
         }
         const { channelId, message } = welcomeDetails;

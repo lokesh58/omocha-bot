@@ -10,7 +10,7 @@ export default {
         const { guild } = member;
         const leavingDetails = await leavingModel.findById(guild.id);
         if (!leavingDetails) {
-          console.log(`Leaving Details not found for guild ${guild.id}`);
+          console.log(`Leaving Details not found for guild <${guild.name}, ${guild.id}>`);
           return;
         }
         const { channelId, message } = leavingDetails;
