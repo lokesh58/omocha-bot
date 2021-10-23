@@ -1,11 +1,9 @@
 import { MessageEmbed } from 'discord.js';
-import BotCommand from '../../bot-command';
+import { BotCommand } from '../../../bot';
 
-const command: BotCommand = {
-  data: {
-    name: 'ping',
-    description: 'Replies with pong and websocket ping details.',
-  },
+export default {
+  name: 'ping',
+  description: 'Replies with pong and websocket ping details.',
   handler: async (interaction) => {
     const { client: { ws } } = interaction;
     await interaction.reply({
@@ -16,6 +14,4 @@ const command: BotCommand = {
       ],
     });
   },
-};
-
-export default command;
+} as BotCommand;
