@@ -8,7 +8,7 @@ import { ensureArray, getErrorEmbed, onError } from '../utils';
 export type BotCommand = {
   name: string,
   description: string,
-  options?: ApplicationCommandOptionData,
+  options?: ApplicationCommandOptionData[],
   userRequiredPermissions?: PermissionString | PermissionString[],
   botRequiredPermissions?: PermissionString | PermissionString[],
   guildOnly?: boolean,
