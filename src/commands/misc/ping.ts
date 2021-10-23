@@ -1,5 +1,5 @@
 import { MessageEmbed } from 'discord.js';
-import { BotCommand } from '../../../bot';
+import { BotCommand } from '../../bot';
 
 export default {
   name: 'ping',

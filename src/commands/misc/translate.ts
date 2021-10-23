@@ -1,6 +1,6 @@
 import translate from '@iamtraction/google-translate';
 import { MessageEmbed } from 'discord.js';
-import { BotCommand } from '../../../bot';
+import { BotCommand } from '../../bot';
 // eslint-disable-next-line @typescript-eslint/no-var-requires, prefer-destructuring
 const languages: { [key: string]: string } = require('@iamtraction/google-translate').languages;
 
