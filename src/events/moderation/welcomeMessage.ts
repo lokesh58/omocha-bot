@@ -25,7 +25,7 @@ export default {
           throw new Error(`Welcome channel is not text channel for guild with id ${guild.id}!`);
         }
         await channel.send({
-          content: message.replace(/<@>/g, `${member}`),
+          content: message.replace(/<@>/g, `<@${member.id}>`),
         });
       } catch (err) {
         onError(err);

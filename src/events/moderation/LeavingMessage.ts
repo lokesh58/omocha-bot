@@ -25,7 +25,7 @@ export default {
           throw new Error(`Leaving channel is not text channel for guild with id ${guild.id}!`);
         }
         await channel.send({
-          content: message.replace(/<@>/g, `${member} (${member.user?.tag || member.displayName})`),
+          content: message.replace(/<@>/g, `<@${member.id}> (${member.user?.tag || member.displayName})`),
         });
       } catch (err) {
         onError(err);
