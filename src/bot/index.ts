@@ -60,18 +60,17 @@ export class Bot {
 
   private init = async () => {
     // Connect to MongoDB
-    const dbConnectedPromise = this.connectToMongoDB();
+    await this.connectToMongoDB();
 
     // Load and register all commands
     this.commands = await this.loadFiles(this.commandsDir);
-    const commandsRegisteredPromise = this.registerCommands();
+    await this.registerCommands();
 
     // Load and start the events
     this.events = this.eventsDir ? await this.loadFiles(this.eventsDir) : [];
     this.startEvents();
 
-    // Start handling commands once DB is connected and commands get registered
-    await Promise.all([dbConnectedPromise, commandsRegisteredPromise]);
+    // Start handling commands
     await this.startCommandHandling();
 
     console.log(`${this.client.user.tag} is online and ready to go!`);
@@ -106,34 +105,26 @@ export class Bot {
     const { application: app } = client;
     if (testGuilds.length) {
       await Promise.all(testGuilds.map(async (guildId) => {
-        console.log(`Registering following commands to test guild with id ${guildId}:\n${commandsData.map(c => c.name).join(', ') || '<No commands>'}`);
+        console.log(`Registering following command(s) to test guild with id ${guildId}:\n${commandsData.map(c => c.name).join(', ') || '<No commands>'}`);
         await app.commands.set(commandsData, guildId); 
       }));
-      return;
     }
-    const currentCommands = await app.commands.fetch();
-    await Promise.all([
-      ...currentCommands.filter(c => commandsData.every(cd => cd.name !== c.name)).map(async (cmd) => {
-        console.log(`Deleting global command ${cmd.name}`);
-        await cmd.delete();
-      }),
-      ...commandsData.map(async (cmdData) => {
-        const cmd = currentCommands.find(c => c.name === cmdData.name);
-        if (!cmd) {
-          console.log(`Creating global command ${cmdData.name}`);
-          await app.commands.create(cmdData);
-          return;
-        }
-        // Command already exists, compare to check if update is needed
-        if (cmd.description !== cmdData.description
-          || JSON.stringify(cmd.options) !== JSON.stringify(cmdData.options || [])) {
-          console.log(`Editing global command ${cmdData.name}`);
-          await cmd.edit(cmdData);
-          return;
-        }
-        console.log(`No changes to global command ${cmdData.name}`);
-      }),
-    ]);
+    console.log(`Registering following global command(s):\n${commandsData.map(c => c.name).join(', ') || '<No commands>'}`);
+    await app.commands.set(commandsData);
+    // TODO: Use this code when method to update existing commands is made
+    // const currentCommands = await app.commands.fetch();
+    // await Promise.all([
+    //   ...currentCommands.filter(c => commandsData.every(cd => cd.name !== c.name)).map(async (cmd) => {
+    //     console.log(`Deleting global command ${cmd.name}`);
+    //     await cmd.delete();
+    //   }),
+    //   ...commandsData.filter(cd => currentCommands.every(c => c.name !== cd.name)).map(async (cmdData) => {
+    //     console.log(`Creating global command ${cmdData.name}`);
+    //     await app.commands.create(cmdData);
+    //   }),
+    // ]);
+    // const unchangedCommandsData = commandsData.filter(cd => currentCommands.some(c => c.name === cd.name));
+    // console.log(`No changes made to command(s):\n${unchangedCommandsData.map(c => c.name).join(', ') || '<No commands>'}`);
   }
 
   private startEvents = () => {

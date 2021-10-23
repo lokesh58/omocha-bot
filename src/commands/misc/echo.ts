@@ -1,5 +1,6 @@
-import { MessageEmbed } from 'discord.js';
+import { GuildChannel, MessageEmbed } from 'discord.js';
 import { BotCommand } from '../../bot';
+import { getErrorEmbed } from '../../utils';
 
 export default {
   name: 'echo',
@@ -15,6 +16,7 @@ export default {
       name: 'channel',
       description: 'The channel where message will be echoed.',
       type: 'CHANNEL',
+      channelTypes: ['GUILD_PRIVATE_THREAD', 'GUILD_PUBLIC_THREAD', 'GUILD_TEXT'],
       required: false,
     },
     {
@@ -25,7 +27,9 @@ export default {
     },
   ],
   handler: async (interaction) => {
-    const { options, channelId: iChannelId, client } = interaction;
+    const {
+      options, channelId: iChannelId, client, guildId, 
+    } = interaction;
     const message = options.getString('message', true);
     const channelId = options.getChannel('channel')?.id || iChannelId;
     const replyMsgId = options.getString('reply_to_message_id') || '';
@@ -33,6 +37,16 @@ export default {
     const channel = await client.channels.fetch(channelId);
     if (!channel) {
       throw new Error('Channel is null!');
+    }
+    if (guildId) {
+      const guild = await client.guilds.fetch(guildId);
+      const reqPerm = channel.isThread() ? 'SEND_MESSAGES_IN_THREADS' : 'SEND_MESSAGES';
+      if (!guild.me?.permissionsIn(channel as GuildChannel).has(reqPerm)) {
+        await interaction.editReply({
+          embeds: [getErrorEmbed('I don\'t have permission to send messages in the channel')],
+        });
+        return;
+      }
     }
     if (!channel.isText()) {
       await interaction.reply({
