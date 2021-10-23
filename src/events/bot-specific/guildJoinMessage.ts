@@ -13,9 +13,6 @@ export default {
           console.log(`System Channel not found in guild <${guild.name}, ${guild.id}>`);
           return;
         }
-        if (!systemChannel.permissionsFor(client.user)?.has('SEND_MESSAGES')) {
-          throw new Error(`Do not have permission to send message in system channel of guild <${guild.name}, ${guild.id}>`);
-        }
         await systemChannel.send({
           embeds: [
             new MessageEmbed()
