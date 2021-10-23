@@ -181,7 +181,7 @@ export class Bot {
           if (missingPerms.length) {
             console.log(`<${user.tag}, ${user.id}> tried using command ${commandName} but failed due to user missing permissions: ${missingPerms.join(', ')}`);
             await interaction.reply({
-              embeds: [getErrorEmbed(`You are missing the following permissions required to run this command:\n\`${missingPerms.join('`, `')}\`}`)],
+              embeds: [getErrorEmbed(`You are missing the following permissions required to run this command:\n\`${missingPerms.join('`, `')}\``)],
               ephemeral: true,
             });
             return;
@@ -197,7 +197,7 @@ export class Bot {
           if (missingPerms.length) {
             console.log(`<${user.tag}, ${user.id}> tried usingcommand ${commandName} but failed due to bot missing permissions: ${missingPerms.join(', ')}`);
             await interaction.reply({
-              embeds: [getErrorEmbed(`I'm missing the following permissions required to run this command:\n\`${missingPerms.join('`, `')}\`}`)],
+              embeds: [getErrorEmbed(`I'm missing the following permissions required to run this command:\n\`${missingPerms.join('`, `')}\``)],
               ephemeral: true,
             });
             return;
