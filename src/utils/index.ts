@@ -13,3 +13,5 @@ export const onError = (err: unknown): void => {
 export const ensureArray = <T>(arg: T | T[]): T[] => Array.isArray(arg) ? arg : [arg];
 
 export const getErrorEmbed = (msg: string): MessageEmbed => new MessageEmbed({ description: msg, color: 'RED' });
+
+export const getSuccessEmbed = (msg: string): MessageEmbed => new MessageEmbed({ description: msg, color: 'GREEN' });

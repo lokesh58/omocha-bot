@@ -30,9 +30,9 @@ export default {
     const channelId = options.getChannel('channel')?.id || iChannelId;
     const replyMsgId = options.getString('reply_to_message_id') || '';
     await interaction.deferReply({ ephemeral: true });
-    const channel = client.channels.cache.get(channelId) || await client.channels.fetch(channelId);
+    const channel = await client.channels.fetch(channelId);
     if (!channel) {
-      throw new Error('No channel found in command `echo`');
+      throw new Error('Channel is null!');
     }
     if (!channel.isText()) {
       await interaction.reply({
