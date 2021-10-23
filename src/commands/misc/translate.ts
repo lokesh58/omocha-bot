@@ -1,7 +1,7 @@
-import BotCommand from '../../bot-command';
 import translate from '@iamtraction/google-translate';
 import { MessageEmbed } from 'discord.js';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+import { BotCommand } from '../../bot';
+// eslint-disable-next-line @typescript-eslint/no-var-requires, prefer-destructuring
 const languages: { [key: string]: string } = require('@iamtraction/google-translate').languages;
 
 const getISOCode = (language: string | null) => {
@@ -22,30 +22,28 @@ const getISOCode = (language: string | null) => {
 };
 
 export default {
-  data: {
-    name: 'translate',
-    description: 'Translate a given text using Google Translate.',
-    options: [
-      {
-        name: 'text',
-        description: 'The text to translate.',
-        type: 'STRING',
-        required: true,
-      },
-      {
-        name: 'from',
-        description: 'The text language (Default: auto).',
-        type: 'STRING',
-        required: false,
-      },
-      {
-        name: 'to',
-        description: 'The language in which the text should be translated (Default: en).',
-        type: 'STRING',
-        required: false,
-      },
-    ]
-  },
+  name: 'translate',
+  description: 'Translate a given text using Google Translate.',
+  options: [
+    {
+      name: 'text',
+      description: 'The text to translate.',
+      type: 'STRING',
+      required: true,
+    },
+    {
+      name: 'from',
+      description: 'The text language (Default: auto).',
+      type: 'STRING',
+      required: false,
+    },
+    {
+      name: 'to',
+      description: 'The language in which the text should be translated (Default: en).',
+      type: 'STRING',
+      required: false,
+    },
+  ],
   handler: async (interaction) => {
     const { options } = interaction;
     const text = options.getString('text', true);
