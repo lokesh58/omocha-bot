@@ -20,7 +20,7 @@ export default {
       required: false,
     },
     {
-      name: 'reply_to_message_id',
+      name: 'reply-to-message-id',
       description: 'ID of a message to make echoed message a reply to that message.',
       type: 'STRING',
       required: false,
@@ -32,11 +32,17 @@ export default {
     } = interaction;
     const message = options.getString('message', true);
     const channelId = options.getChannel('channel')?.id || iChannelId;
-    const replyMsgId = options.getString('reply_to_message_id') || '';
+    const replyMsgId = options.getString('reply-to-message-id') || '';
     await interaction.deferReply({ ephemeral: true });
     const channel = await client.channels.fetch(channelId);
     if (!channel) {
       throw new Error('Channel is null!');
+    }
+    if (!channel.isText()) {
+      await interaction.editReply({
+        embeds: [getErrorEmbed('`channel` must be a text channel')],
+      });
+      return;
     }
     if (guildId) {
       const guild = await client.guilds.fetch(guildId);
@@ -47,12 +53,6 @@ export default {
         });
         return;
       }
-    }
-    if (!channel.isText()) {
-      await interaction.editReply({
-        embeds: [getErrorEmbed('`channel` must be a text channel')],
-      });
-      return;
     }
     await channel.send({
       content: message,
