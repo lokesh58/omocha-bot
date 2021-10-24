@@ -29,13 +29,13 @@ const handleSet = async (interaction: GuildCommandInteraction) => {
   const channel = options.getChannel('channel');
   if (!message && !channel) {
     await interaction.reply({
-      content: 'Atleast one of `message` or `channel` is required!',
+      embeds: [getErrorEmbed('Atleast one of `message` or `channel` is required!')],
       ephemeral: true,
     });
     return;
   } else if (channel && channel.type !== 'GUILD_TEXT') {
     await interaction.reply({
-      content: '`channel` must be a text channel!',
+      embeds: [getErrorEmbed('`channel` must be a text channel!')],
       ephemeral: true,
     });
     return;
@@ -133,6 +133,7 @@ export default {
     },
   ],
   userRequiredPermissions: 'MANAGE_GUILD',
+  guildOnly: true,
   handler: async (interaction: GuildCommandInteraction) => {
     const { options } = interaction;
     const subCmdName = options.getSubcommand(true);
