@@ -133,6 +133,7 @@ export default {
     },
   ],
   userRequiredPermissions: 'MANAGE_GUILD',
+  guildOnly: true,
   handler: async (interaction: GuildCommandInteraction) => {
     const { options } = interaction;
     const subCmdName = options.getSubcommand(true);
