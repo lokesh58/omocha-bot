@@ -195,7 +195,7 @@ export class Bot {
             missingPerms = reqdPerms.filter(p => !me.permissions.has(p));
           }
           if (missingPerms.length) {
-            console.log(`<${user.tag}, ${user.id}> tried usingcommand ${commandName} but failed due to bot missing permissions: ${missingPerms.join(', ')}`);
+            console.log(`<${user.tag}, ${user.id}> tried using command ${commandName} but failed due to bot missing permissions: ${missingPerms.join(', ')}`);
             await interaction.reply({
               embeds: [getErrorEmbed(`I'm missing the following permissions required to run this command:\n\`${missingPerms.join('`, `')}\``)],
               ephemeral: true,
