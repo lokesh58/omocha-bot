@@ -49,9 +49,8 @@ export default {
       }
     }
     if (!channel.isText()) {
-      await interaction.reply({
-        content: '`channel` must be a text channel',
-        ephemeral: true,
+      await interaction.editReply({
+        embeds: [getErrorEmbed('`channel` must be a text channel')],
       });
       return;
     }
