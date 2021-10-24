@@ -29,7 +29,7 @@ const handleCreate = async (interaction: GuildCommandInteraction) => {
   }
   const roles = await parseRoleMentions(roleString, guild);
   const highestBotRole = guild.me.roles.highest;
-  const successRoles = roles.filter(r => highestBotRole.comparePositionTo(r) > 0).sort((r1, r2) => r1.name < r1.name ? -1 : 1);
+  const successRoles = roles.filter(r => highestBotRole.comparePositionTo(r) > 0).sort((r1, r2) => r1.name < r2.name ? -1 : 1);
   if (!successRoles.length) {
     await interaction.editReply({
       embeds: [getErrorEmbed('All roles are above my position. I cannot add them to role select menu.')],
