@@ -1,8 +1,8 @@
-import { GuildChannel, GuildCommandInteraction, MessageActionRow, MessageEmbed, MessageSelectMenu, MessageSelectOptionData } from 'discord.js';
+import { GuildChannel, CommandInteraction, MessageActionRow, MessageEmbed, MessageSelectMenu, MessageSelectOptionData } from 'discord.js';
 import { BotCommand } from '../../bot';
 import { getErrorEmbed, parseRoleMentions } from '../../utils';
 
-const handleCreate = async (interaction: GuildCommandInteraction) => {
+const handleCreate = async (interaction: CommandInteraction) => {
   const {
     options, channelId: iChannelId, client, guildId, 
   } = interaction;
@@ -60,7 +60,7 @@ const handleCreate = async (interaction: GuildCommandInteraction) => {
   });
 };
 
-const handleEdit = async (interaction: GuildCommandInteraction) => {
+const handleEdit = async (interaction: CommandInteraction) => {
   const {
     options, channelId: iChannelId, client, guildId, 
   } = interaction;
@@ -202,7 +202,7 @@ export default {
   userRequiredPermissions: 'MANAGE_ROLES',
   botRequiredPermissions: 'MANAGE_ROLES',
   guildOnly: true,
-  handler: async (interaction: GuildCommandInteraction) => {
+  handler: async (interaction) => {
     const { options } = interaction;
     const subCmdName = options.getSubcommand(true);
     switch(subCmdName) {
