@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionData, ChatInputApplicationCommandData, Client, Collection,
+import { ApplicationCommandOptionData, AutocompleteInteraction, Awaitable, ChatInputApplicationCommandData, Client, Collection,
   CommandInteraction, GuildMember, InteractionReplyOptions, Permissions, PermissionString } from 'discord.js';
 import glob from 'glob';
 import { connect } from 'mongoose';
@@ -13,8 +13,9 @@ export type BotCommand = {
   botRequiredPermissions?: PermissionString | PermissionString[],
   guildOnly?: boolean,
   ownerOnly?: boolean,
-  once?: (client: Client<true>) => Promise<void>,
-  handler: (interaction: CommandInteraction) => Promise<void>,
+  once?: (client: Client<true>) => Awaitable<void>,
+  autocompleteHandler?: (interaction: AutocompleteInteraction) => Awaitable<void>,
+  handler: (interaction: CommandInteraction) => Awaitable<void>,
 };
 
 export type BotEvent = {
@@ -144,7 +145,7 @@ export class Bot {
       }
     }));
     client.on('interactionCreate', async (interaction) => {
-      if (!interaction.isCommand()) {
+      if (!interaction.isCommand() && !interaction.isAutocomplete()) {
         return;
       }
       try {
@@ -154,6 +155,12 @@ export class Bot {
         const cmd = cmdCollection.get(commandName);
         if (!cmd) {
           throw new Error(`Unknown command <${commandName}, ${commandId}> recieved!`);
+        }
+        if (interaction.isAutocomplete()) {
+          if (cmd.autocompleteHandler) {
+            await cmd.autocompleteHandler(interaction);
+          }
+          return;
         }
         if (cmd.guildOnly && !interaction.inGuild()) {
           console.log(`<${user.tag}, ${user.id}> tried using guild only command ${commandName} outside guild`);
@@ -207,6 +214,9 @@ export class Bot {
         await cmd.handler(interaction);
       } catch (err) {
         onError(err);
+        if (interaction.isAutocomplete()) {
+          return;
+        }
         const errorResponse: InteractionReplyOptions = {
           embeds: [getErrorEmbed('An error occurred! Please try again.')],
           ephemeral: true,
