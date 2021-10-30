@@ -80,7 +80,7 @@ const handleEdit = async (interaction: CommandInteraction) => {
     });
     return;
   }
-  const msg = await channel.messages.fetch(messageId, { cache: true, force: true });
+  const msg = await channel.messages.fetch(messageId);
   if (!msg || !(msg.author.id === client.user?.id) || !msg.components || !msg.components.length
     || !msg.components[0].components || !msg.components[0].components.length || !(msg.components[0].components[0].customId === 'role_select_menu')) {
     await interaction.editReply({
