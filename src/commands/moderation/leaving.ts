@@ -1,9 +1,9 @@
-import { GuildCommandInteraction, MessageEmbed } from 'discord.js';
+import { CommandInteraction, MessageEmbed } from 'discord.js';
 import { BotCommand } from '../../bot';
 import { leavingModel } from '../../models/leaving';
 import { getErrorEmbed, getSuccessEmbed } from '../../utils';
 
-const handleGet = async (interaction: GuildCommandInteraction) => {
+const handleGet = async (interaction: CommandInteraction) => {
   const { guildId } = interaction;
   await interaction.deferReply();
   const leavingDetails = await leavingModel.findById(guildId);
@@ -23,7 +23,7 @@ const handleGet = async (interaction: GuildCommandInteraction) => {
   });
 };
 
-const handleSet = async (interaction: GuildCommandInteraction) => {
+const handleSet = async (interaction: CommandInteraction) => {
   const { guildId, options, client } = interaction;
   const message = options.getString('message');
   const channel = options.getChannel('channel');
@@ -81,7 +81,7 @@ const handleSet = async (interaction: GuildCommandInteraction) => {
   });
 };
 
-const handleDelete = async (interaction: GuildCommandInteraction) => {
+const handleDelete = async (interaction: CommandInteraction) => {
   const { guildId } = interaction;
   await interaction.deferReply();
   const leavingDetails = await leavingModel.findById(guildId);
@@ -134,7 +134,7 @@ export default {
   ],
   userRequiredPermissions: 'MANAGE_GUILD',
   guildOnly: true,
-  handler: async (interaction: GuildCommandInteraction) => {
+  handler: async (interaction) => {
     const { options } = interaction;
     const subCmdName = options.getSubcommand(true);
     switch(subCmdName) {
