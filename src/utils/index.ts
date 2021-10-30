@@ -3,9 +3,11 @@ import { Guild, MessageEmbed, MessageMentions, Role } from 'discord.js';
 export const onError = (err: unknown): void => {
   let error: Error;
   if (err instanceof Error) {
-    error = err;
+    error = new Error(err.message);
+    error.name = err.name;
   } else {
-    error = new Error(`(WARNING: non Error type passed to onError)\n${err}`);
+    error = new Error(`non Error type passed to onError\n${err}`);
+    error.name = 'WARNING';
   }
   console.error(`${error.stack ?? error}`);
 };

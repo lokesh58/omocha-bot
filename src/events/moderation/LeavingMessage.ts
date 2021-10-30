@@ -8,6 +8,10 @@ export default {
     client.on('guildMemberRemove', async (member) => {
       try {
         const { guild } = member;
+        if (member.id === client.user.id) {
+          console.log(`Removed from guild <${guild.name}, ${guild.id}>`);
+          return;
+        }
         const leavingDetails = await leavingModel.findById(guild.id);
         if (!leavingDetails) {
           console.log(`Leaving Details not found for guild <${guild.name}, ${guild.id}>`);
